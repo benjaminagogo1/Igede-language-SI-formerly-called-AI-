@@ -15,11 +15,12 @@
 
 ### Person A — Data Lead
 Primary: UNEGBE SOLOMON  
-Support: IHWE MATTHIAS
+Support: ONMINYI ANDREW  ---> New role assigned 
 
 ### Person B — Web Developer
 Primary: ONMINYI ANDREW  
 Support: IBE WEALTH
+Support: UNEGBE SOLOMON  ---> New role assigned
 
 ### Person C — Data Quality & Database
 Primary: IHWE MATTHIAS  
