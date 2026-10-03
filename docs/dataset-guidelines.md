@@ -116,3 +116,12 @@ Every entry should have a clear status:
 - Approved
 - Rejected
 - Duplicate
+
+
+
+
+
+
+## Document Status
+
+Initial guidelines created.
