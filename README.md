@@ -138,3 +138,5 @@ web/         Website application
 ai/          AI and chatbot development
 database/    Database-related code and documentation
 tests/       Testing
+
+Database 
