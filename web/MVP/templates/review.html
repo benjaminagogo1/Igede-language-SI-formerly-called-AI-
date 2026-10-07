@@ -1,0 +1,76 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Submissions</title>
+</head>
+
+<body>
+    
+    <h1>Pending Igede submissions</h1>
+
+    {% if submissions %}
+        
+        {% for submission in submissions %}
+
+            <div>
+
+                <p>
+                    <strong>English:</strong>
+                    {{ submission['english'] }}
+                </p>
+
+                <p>
+                    <strong>Igede:</strong>
+                    {{ submission['igede'] }}
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    {{ submission['category'] }}
+                </p>
+
+                <p>
+                    <strong>Source:</strong>
+                    {{ submission['source_type'] }}
+                </p>
+
+                <p>
+                    <strong>Contributor:</strong>
+                    {{ submission['contributor'] }}
+                </p>
+
+            </div>
+
+            <form method="POST" 
+                action="{{ url_for(
+                'verify_submission',
+                submission_id=submission['id']
+                ) }}"
+            >
+                <button type="submit">
+                    Verify
+                </button>
+            </form>
+
+            <form method="POST"
+                action="{{ url_for(
+                'reject_submission',
+                submission_id=submission['id']
+            ) }}"
+            >
+                <button type="submit">
+                    Reject
+                </button>
+            </form>
+        
+        {% endfor %}
+
+    {% else %}
+
+        <p>No pending submissions.</p>
+    
+    {% endif %}
+
+</body>
+</html>

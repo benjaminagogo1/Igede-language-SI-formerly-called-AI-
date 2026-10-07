@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Igede Language Dataset</title>
+</head>
+<body>
+
+    <h1>Verified Igede Language Dataset</h1>
+
+    {% if submissions %}
+
+        <div class="table-container">
+        
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>English</th>
+                        <th>Igede</th>
+                        <th>Category</th>
+                        <th>Direction</th>
+                        <th>Source</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for submission in submissions %}
+                    
+                    <tr>
+                        <td>{{ submission["english"] }}</td>
+                        <td>{{ submission["igede"] }}</td>
+                        <td>{{ submission["category"] }}</td>
+                        <td>{{ submission["direction"] }}</td>
+                        <td>{{ submission["source_type"] }}</td>
+                    </tr>
+
+                    {% endfor %}
+                    
+                </tbody>
+                
+            </table>
+        
+        </div>
+
+    {% else %}
+        
+        <p>No verified language entries are available yet.</p>
+
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Igede Language Project</title>
+
+    <link 
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+        >
+</head>
+<body>
+
+    <header>
+        <h1>Igede Language Project</h1>
+
+        <nav>
+            <a href="{{ url_for('home') }}">
+                Home
+            </a>
+            <a href="{{ url_for('submit') }}">
+                Contribute
+            </a>
+            <a href="{{ url_for('dataset') }}">
+                Dataset
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Help Preserve the Igede Language</h2>
+
+        <p>
+            Help us build a community-driven digital collection
+            of Igede words, phrases, sentences, provverbs and 
+            expressions.
+        </p>
+
+        <a href="/submit">Contribute Igede Data</a>
+    </main>
+    
+</body>
+</html>

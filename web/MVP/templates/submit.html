@@ -1,0 +1,112 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribute Igede Data</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+<body>
+    
+    <header>
+        <h1>Contribute Igede Data</h1>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/submit">Contribute</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <form method="POST" action="/submit">
+
+            <div class="form-group">
+            
+                <label for="english">English</label>
+                <input
+                    id="english" 
+                    type="text"
+                    name="english"
+                    value="{{ request.form.get('english', '') }}"
+                    required
+                >
+
+                <label for="igede">Igede</label>
+                <input
+                    id="igede" 
+                    type="text"
+                    name="igede"
+                    value="{{ request.form.get('igede', '') }}"
+                    required
+                >
+
+                <label for="direction">Direction</label>
+                <select name="direction" id="direction" required>
+                    <option value="english_to_igede">
+                        English - Igede
+                    </option>
+
+                    <option value="igede_to_englisj">
+                        Igede - English
+                    </option>
+                </select>
+
+                <label for="category">Category</label>
+                <select name="category" id="category" required>
+                    <option value="word">Word</option>
+                    <option value="phrase">Phrase</option>
+                    <option value="sentence">Sentence</option>
+                    <option value="proverb">Proverb</option>
+                    <option value="expression">Expression</option>
+                </select>
+
+                <label for="source_type">Source Type</label>
+                <select name="source_type" id="source_type" required>
+                    <option value="native_speaker">Native Speaker</option>
+                    <option value="dictionary">Dictionary</option>
+                    <option value="book">Book</option>
+                    <option value="community">Community</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <label for="contributor">Contributor</label>
+                <input
+                    id="contributor"
+                    type="text"
+                    name="contributor"
+                >
+
+                <label for="notes">Notes</label>
+                <textarea 
+                    name="notes"
+                    id="notes"
+                >{{ request.form.get('notes', '') }}</textarea>
+
+                <button type="submit">
+                    Submit
+                </button>
+            
+            </div>
+
+        </form>
+
+    </main>
+
+    {% if success %}
+        <p class="success">
+            {{ success }}
+        </p>
+    {% endif %}
+
+    {% if error %}
+        <p class="error">
+            {{ error }}
+        </p>
+    {% endif %}
+
+</body>
+</html>
