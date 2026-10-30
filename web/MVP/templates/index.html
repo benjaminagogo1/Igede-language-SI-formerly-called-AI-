@@ -1,43 +1,291 @@
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Igede Language Project</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Igede Language Data Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
 
-    <link 
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}"
-        >
-</head>
-<body>
+  <body>
+    <div class="bg"></div>
+    <div class="veil"></div>
+    <i class="corner l"></i><i class="corner r"></i>
 
-    <header>
-        <h1>Igede Language Project</h1>
-
-        <nav>
-            <a href="{{ url_for('home') }}">
-                Home
-            </a>
-            <a href="{{ url_for('submit') }}">
-                Contribute
-            </a>
-            <a href="{{ url_for('dataset') }}">
-                Dataset
-            </a>
+    <div class="page">
+      <header class="top">
+        <a class="brand" href="#">
+          <img class="logo" src="{{ url_for('static', filename='our2.png') }}" alt="Igede logo" />
+          <span>
+            <b>Igede</b><strong>Language Data Collection</strong
+            ><small>Our Language, Our Heritage, Our Future</small></span
+          >
+        </a>
+        <nav class="menu" aria-label="Main">
+          <a class="on" href="#">Home</a><a href="#contribute">Contribute</a
+          ><a href="#about">About</a><a href="#how">How It Works</a
+          ><a href="#contact">Contact</a>
         </nav>
-    </header>
+        <div class="actions">
+          <button class="theme" id="theme" aria-label="Toggle theme">
+            <svg
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <circle cx="12" cy="12" r="4.5" fill="currentColor" />
+              <path
+                d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"
+              />
+            </svg>
+          </button>
+          <a class="signin" href="#">Sign In</a>
+          <button
+            class="burger"
+            id="burger"
+            aria-label="Open menu"
+            aria-expanded="false"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </header>
 
-    <main>
-        <h2>Help Preserve the Igede Language</h2>
+      <main class="hero">
+        <section class="left" id="about">
+          <span class="badge float"
+            ><i class="leaf">&#10003;</i>Preserving Igede. Building the
+            Future.</span
+          >
+          <h1>Igede Language<br /><span>Data Collection Platform</span></h1>
+          <p class="lede">
+            Help us collect, preserve, and grow Igede language data<br />for a
+            smarter tomorrow. Your contribution makes a difference.
+          </p>
 
-        <p>
-            Help us build a community-driven digital collection
-            of Igede words, phrases, sentences, provverbs and 
-            expressions.
-        </p>
+          <div class="tiles" id="how">
+            <div class="tile float">
+              <svg viewBox="0 0 48 48">
+                <circle cx="24" cy="24" r="17" fill="#7c6cf0" />
+                <circle cx="17" cy="24" r="2.5" fill="#fff" />
+                <circle cx="24" cy="24" r="2.5" fill="#fff" />
+                <circle cx="31" cy="24" r="2.5" fill="#fff" /></svg
+              >Record<br />Sentences
+            </div>
+            <div class="tile float d1">
+              <svg viewBox="0 0 48 48">
+                <rect
+                  x="10"
+                  y="7"
+                  width="28"
+                  height="34"
+                  rx="5"
+                  fill="#2dd4bf"
+                />
+                <path
+                  d="M16 19h16M16 26h16M16 33h9"
+                  stroke="#fff"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                /></svg
+              >Share<br />Translations
+            </div>
+            <div class="tile float d2">
+              <svg viewBox="0 0 48 48">
+                <circle cx="24" cy="15" r="7" fill="#60a5fa" />
+                <circle cx="11" cy="22" r="5" fill="#93c5fd" />
+                <circle cx="37" cy="22" r="5" fill="#93c5fd" />
+                <path
+                  d="M8 40c0-9 7-14 16-14s16 5 16 14z"
+                  fill="#3b82f6"
+                /></svg
+              >Support<br />AI Research
+            </div>
+            <div class="tile float d3">
+              <svg viewBox="0 0 48 48">
+                <path
+                  d="M24 5 39 11v12c0 10-6 17-15 20C15 40 9 33 9 23V11z"
+                  fill="#3b82f6"
+                />
+                <path
+                  d="m17 24 5 5 9-10"
+                  stroke="#fff"
+                  stroke-width="3.5"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                /></svg
+              >Preserve<br />Our Heritage
+            </div>
+          </div>
 
-        <a href="/submit">Contribute Igede Data</a>
-    </main>
-    
-</body>
+          <div class="script float d1">
+            Real People. Real Language.<br />A Stronger Future.<svg
+              viewBox="0 0 160 14"
+              aria-hidden="true"
+            >
+              <path
+                d="M2 12C40 2 100 0 158 4"
+                stroke="#1769ff"
+                stroke-width="5"
+                fill="none"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+        </section>
+
+        <section class="card float d2" id="contribute" aria-labelledby="ft">
+          <div class="chead">
+            <span class="ico"
+              ><svg viewBox="0 0 24 24" width="22" height="22">
+                <path
+                  d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"
+                  fill="#a78bfa"
+                />
+                <circle cx="8.5" cy="11" r="1.3" fill="#fff" />
+                <circle cx="12" cy="11" r="1.3" fill="#fff" />
+                <circle cx="15.5" cy="11" r="1.3" fill="#fff" /></svg
+              ></span>
+            <div>
+              <h2 id="ft">Submit a Sentence</h2>
+              <p>
+                Help us build a richer Igede language dataset by sharing a
+                sentence or translation.
+              </p>
+            </div>
+          </div>
+          <form id="f" novalidate>
+            <label for="dir">Language Direction <b>*</b></label>
+            <select id="dir">
+              {% for code, label in direction_display %}
+              <option value="{{ code }}">{{ label }}</option>
+              {% endfor %}
+            </select>
+
+            <label for="en"
+              ><span id="l1">{{ source_label }}</span> <b id="r1">*</b></label
+            >
+            <div class="ta">
+              <textarea
+                id="en"
+                maxlength="500"
+                placeholder="{{ en_placeholder }}"
+              ></textarea
+              ><em><span id="c1">0</span>/500</em>
+            </div>
+
+            <label for="ig"
+              ><span id="l2">{{ target_label }}</span
+              ><span id="r2">(optional)</span></label
+            >
+            <div class="ta">
+              <textarea
+                id="ig"
+                maxlength="500"
+                placeholder="{{ ig_placeholder }}"
+              ></textarea
+              ><em><span id="c2">0</span>/500</em>
+            </div>
+
+            <label for="cat">Category <b>*</b></label>
+            <select id="cat">
+              {% for key, label in category_items %}
+              <option value="{{ key }}">{{ label }}</option>
+              {% endfor %}
+            </select>
+
+            <label for="src">Source Type <b>*</b></label>
+            <select id="src">
+              {% for key, label in source_type_items %}
+              <option value="{{ key }}">{{ label }}</option>
+              {% endfor %}
+            </select>
+
+            <div class="err" id="err" role="alert"></div>
+            <button class="submit" type="submit">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff">
+                <path d="M21.5 2.5 2 10l7 3 3 7zM9 13l9-8" /></svg
+              >Submit
+            </button>
+            <p class="thanks">Your contribution is valuable!</p>
+          </form>
+        </section>
+      </main>
+
+      <section class="bar float d3" id="contact" aria-label="Why contribute">
+        <div>
+          <svg viewBox="0 0 40 40">
+            <circle cx="20" cy="13" r="6" fill="#60a5fa" />
+            <circle cx="8" cy="19" r="4" fill="#93c5fd" />
+            <circle cx="32" cy="19" r="4" fill="#93c5fd" />
+            <path d="M6 34c0-8 6-12 14-12s14 4 14 12z" fill="#3b82f6" /></svg
+          ><span
+            ><b>Community Driven</b
+            ><small>By the people, for the people</small></span
+          >
+        </div>
+        <div>
+          <svg viewBox="0 0 40 40">
+            <path
+              d="M20 4 33 9v10c0 9-5 14-13 17C12 33 7 28 7 19V9z"
+              fill="none"
+              stroke="#fff"
+              stroke-width="2.5"
+            />
+            <path
+              d="m14 20 4 4 8-9"
+              stroke="#fff"
+              stroke-width="3"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            /></svg
+          ><span><b>Verified Data</b><small>Quality you can trust</small></span>
+        </div>
+        <div>
+          <svg viewBox="0 0 40 40">
+            <path d="M8 33C8 15 18 7 33 7c0 16-8 26-25 26z" fill="#22c55e" />
+            <path d="M10 31 26 15" stroke="#fff" stroke-width="2.5" /></svg
+          ><span
+            ><b>Cultural Preservation</b
+            ><small>Our heritage, our pride</small></span
+          >
+        </div>
+        <div>
+          <svg
+            viewBox="0 0 40 40"
+            fill="none"
+            stroke="#38bdf8"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          >
+            <rect x="11" y="11" width="18" height="18" rx="3" />
+            <rect x="16" y="16" width="8" height="8" rx="1.5" fill="#38bdf8" />
+            <path
+              d="M15 5v6M20 5v6M25 5v6M15 29v6M20 29v6M25 29v6M5 15h6M5 20h6M5 25h6M29 15h6M29 20h6M29 25h6"
+            /></svg
+          ><span><b>AI Ready</b><small>For future innovations</small></span>
+        </div>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status">Thank you! Your sentence was submitted.</div>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
 </html>
