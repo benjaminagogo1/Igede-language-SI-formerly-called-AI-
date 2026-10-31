@@ -54,7 +54,11 @@ app.config.update(
     MAX_CONTENT_LENGTH=16 * 1024 * 1024,  # 16 MB per request
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
+    SESSION_COOKIE_SECURE=bool(os.environ.get("RENDER")),  # secure cookies only on Render
 )
+
+from werkzeug.middleware.proxy_fix import ProxyFix
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 UPLOAD_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads")
 MEDIA_TYPES = ("text", "audio", "image")
