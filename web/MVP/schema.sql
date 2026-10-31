@@ -1,76 +1,56 @@
--- Igede Language Data Collection — SQLite schema (MVP baseline)
---
--- Idempotent: every statement uses CREATE TABLE IF NOT EXISTS, so running
--- init_db() against an existing database adds new tables without dropping or
--- altering existing ones. Foreign keys are enforced via PRAGMA foreign_keys = ON.
---
--- Phase 3 additions (Decision 010, 012):
---   * users        — per-developer accounts with roles (admin/reviewer/developer)
---   * review_records — audit trail of every approve/reject/needs_correction decision
---
--- To apply to an existing database:  python database.py
--- (init_db() runs this file via executescript; existing data is untouched.)
+-- Igede Language Data Collection — PostgreSQL schema
+-- Safe to run repeatedly. New columns are added with ALTER ... IF NOT EXISTS,
+-- so existing databases keep their data.
 
-PRAGMA foreign_keys = ON;
+CREATE TABLE IF NOT EXISTS users (
+    id            SERIAL PRIMARY KEY,
+    username      VARCHAR(50) NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    role          VARCHAR(20) NOT NULL CHECK (role IN ('admin', 'reviewer', 'developer')),
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
+);
 
 CREATE TABLE IF NOT EXISTS submissions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-    source_text TEXT NOT NULL,
-    translation TEXT NOT NULL,
-
-    direction TEXT NOT NULL,
-    category TEXT NOT NULL,
-    source_type TEXT NOT NULL,
-
-    contributor TEXT,
-
-    status TEXT NOT NULL DEFAULT 'pending',
-
-    verified_by TEXT,
-    verification_date TEXT,
-
-    notes TEXT,
-
-    source_hash TEXT NOT NULL,
-
-    submitted_at TEXT,
-
-    date_added TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    id                SERIAL PRIMARY KEY,
+    media_type        VARCHAR(10) NOT NULL DEFAULT 'text'
+                      CHECK (media_type IN ('text', 'audio', 'image')),
+    source_text       TEXT NOT NULL DEFAULT '',
+    translation       TEXT NOT NULL DEFAULT '',
+    direction         TEXT NOT NULL,
+    category          TEXT NOT NULL,
+    source_type       TEXT NOT NULL,
+    contributor       TEXT,
+    notes             TEXT,
+    file_path         TEXT,
+    original_filename TEXT,
+    mime_type         TEXT,
+    status            VARCHAR(20) NOT NULL DEFAULT 'pending'
+                      CHECK (status IN ('pending', 'approved', 'rejected')),
+    verified_by       TEXT,
+    verification_date TIMESTAMPTZ,
+    source_hash       CHAR(40) NOT NULL UNIQUE,
+    created_at        TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
--- Per-developer accounts. Passwords are stored as Werkzeug/Flask-Login
--- password hashes (pbkdf2:sha256), never plaintext (Decision 010).
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+-- Consent / licence, anonymous contributor token, optional speaker details
+ALTER TABLE submissions ADD COLUMN IF NOT EXISTS license           TEXT;
+ALTER TABLE submissions ADD COLUMN IF NOT EXISTS consent_version   TEXT;
+ALTER TABLE submissions ADD COLUMN IF NOT EXISTS consent_at        TIMESTAMPTZ;
+ALTER TABLE submissions ADD COLUMN IF NOT EXISTS contributor_token VARCHAR(32);
+ALTER TABLE submissions ADD COLUMN IF NOT EXISTS speaker_dialect   TEXT;
+ALTER TABLE submissions ADD COLUMN IF NOT EXISTS speaker_age_range TEXT;
+ALTER TABLE submissions ADD COLUMN IF NOT EXISTS speaker_gender    TEXT;
 
-    username TEXT NOT NULL UNIQUE,
-    password_hash TEXT NOT NULL,
+CREATE INDEX IF NOT EXISTS idx_submissions_status_type ON submissions (status, media_type);
+CREATE INDEX IF NOT EXISTS idx_submissions_created     ON submissions (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_submissions_category    ON submissions (category);
+CREATE INDEX IF NOT EXISTS idx_submissions_token       ON submissions (contributor_token);
 
-    -- Roles: admin (full access), reviewer (approve/reject only),
-    -- developer (read-only dashboard access).
-    role TEXT NOT NULL CHECK (role IN ('admin', 'reviewer', 'developer')),
-
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
--- Audit trail of every review decision (Decision 012).
--- One submission may have multiple review records (e.g. approved, then
--- later rejected) so decisions are never silently overwritten.
 CREATE TABLE IF NOT EXISTS review_records (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-
-    submission_id INTEGER NOT NULL,
-    reviewer_id INTEGER NOT NULL,
-
-    decision TEXT NOT NULL CHECK (
-        decision IN ('approved', 'rejected', 'needs_correction')
-    ),
-
-    comments TEXT,
-
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (submission_id) REFERENCES submissions (id) ON DELETE CASCADE,
-    FOREIGN KEY (reviewer_id)    REFERENCES users (id)       ON DELETE CASCADE
+    id            SERIAL PRIMARY KEY,
+    submission_id INTEGER NOT NULL REFERENCES submissions (id) ON DELETE CASCADE,
+    reviewer_id   INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    decision      VARCHAR(20) NOT NULL CHECK (decision IN ('approved', 'rejected', 'needs_correction')),
+    comments      TEXT,
+    created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );

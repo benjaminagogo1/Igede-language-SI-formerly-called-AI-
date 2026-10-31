@@ -1,22 +1,28 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Login — Igede Data Collection</title>
-  </head>
-  <body>
-    <form action="{{ url_for('app.login') }}" method="post">
-      <label for="username">Username</label>
-      <input id="username" name="username" type="text" required />
-      <br />
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" required />
-      <br />
-      <button type="submit">Sign in</button>
-    </form>
-    {% if current_user %}
-      <p>You are logged in as <strong>{{ current_user.username }}</strong></p>
-      <p><a href="{{ url_for('app.logout') }}">Logout</a></p>
-    {% endif %}
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign In — Igede Data Collection</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='our2.png') }}" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}" />
+</head>
+
+<body class="loginpage">
+  <form class="loginbox" action="{{ url_for('login', next=request.args.get('next')) }}" method="post">
+    <img src="{{ url_for('static', filename='our2.png') }}" alt="Igede logo" />
+    <h1>Admin Sign In</h1>
+    <p>For reviewers, admins and developers.</p>
+    {% if error %}<div class="flash error">{{ error }}</div>{% endif %}
+    <label for="username">Username</label>
+    <input id="username" name="username" type="text" required autofocus />
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" required />
+    <button type="submit">Sign in</button>
+    <a class="back" href="{{ url_for('home') }}">&larr; Back to site</a>
+  </form>
+</body>
+
 </html>

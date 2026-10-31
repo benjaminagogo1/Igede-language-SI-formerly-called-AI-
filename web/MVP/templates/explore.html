@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+      <title>Explore Data — Igede Language Data Collection</title>
+      <link rel="icon" type="image/png" href="{{ url_for('static', filename='our2.png') }}" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" />
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+      <div class="bg"></div>
+      <div class="veil"></div>
+      <i class="corner l"></i><i class="corner r"></i>
+
+      <div class="page">
+            {% include "_header.html" %}
+
+            <main class="explore">
+                  <section class="card panel">
+                        <h1 class="ptitle">Explore Igede Language Data</h1>
+                        <p class="psub">Browse approved contributions from the community.</p>
+
+                        <div class="tabs wide">
+                              {% for k, lbl in [('text', 'Text'), ('audio', 'Audio'), ('image', 'Images')] %}
+                              <a class="tab {{ 'on' if kind == k }}" href="{{ url_for('explore', type=k) }}">{{ lbl
+                                    }}</a>
+                              {% endfor %}
+                        </div>
+
+                        <form class="filters" method="get" action="{{ url_for('explore') }}">
+                              <input type="hidden" name="type" value="{{ kind }}" />
+                              <input type="search" name="q" value="{{ f.q }}" placeholder="Search by keyword..." />
+                              <select name="category">
+                                    <option value="">All Categories</option>
+                                    {% for k, l in cat_labels.items() %}
+                                    <option value="{{ k }}" {{ 'selected' if f.category==k }}>{{ l }}</option>
+                                    {% endfor %}
+                              </select>
+                              <select name="direction">
+                                    <option value="">All Directions</option>
+                                    {% for k, l in dir_labels.items() %}
+                                    <option value="{{ k }}" {{ 'selected' if f.direction==k }}>{{ l }}</option>
+                                    {% endfor %}
+                              </select>
+                              <select name="source_type">
+                                    <option value="">All Sources</option>
+                                    {% for k, l in src_labels.items() %}
+                                    <option value="{{ k }}" {{ 'selected' if f.source_type==k }}>{{ l }}</option>
+                                    {% endfor %}
+                              </select>
+                              <button class="submit small" type="submit">Search</button>
+                        </form>
+
+                        <p class="count">{{ total }} result{{ '' if total == 1 else 's' }}</p>
+
+                        <div class="grid">
+                              {% for r in rows %}
+                              <article class="item">
+                                    {% if kind == 'audio' %}
+                                    <audio controls preload="none" src="{{ url_for('media', sid=r.id) }}"></audio>
+                                    {% elif kind == 'image' %}
+                                    <img loading="lazy" src="{{ url_for('media', sid=r.id) }}"
+                                          alt="{{ r.source_text }}" />
+                                    {% endif %}
+                                    <p class="src">{{ r.source_text }}</p>
+                                    {% if r.translation %}<p class="tr">{{ r.translation }}</p>{% endif %}
+                                    <div class="meta">
+                                          <span>{{ cat_labels.get(r.category, r.category) }}</span>
+                                          <span>{{ dir_labels.get(r.direction, r.direction) }}</span>
+                                    </div>
+                              </article>
+                              {% else %}
+                              <p class="empty">No approved contributions found yet.</p>
+                              {% endfor %}
+                        </div>
+
+                        {% if pages > 1 %}
+                        <nav class="pager" aria-label="Pages">
+                              {% for p in range(1, pages + 1) %}
+                              <a class="{{ 'on' if p == page }}" href="{{ url_for('explore', page=p, **qs) }}">{{ p
+                                    }}</a>
+                              {% endfor %}
+                        </nav>
+                        {% endif %}
+                  </section>
+            </main>
+      </div>
+
+      <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>

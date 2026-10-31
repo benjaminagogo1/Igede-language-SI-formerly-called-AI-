@@ -811,3 +811,723 @@ textarea:focus {
     /* raise or lower the 65% to move the woman sideways */
   }
 }
+
+
+/* =========================================================
+   ADDED: tabs, shortcut tiles, file box, explore, how-it-works
+   ========================================================= */
+a.tile {
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+a.tile:hover {
+  border-color: #fff;
+  background: rgba(23, 105, 255, 0.35);
+}
+
+.err {
+  white-space: pre-line;
+}
+
+/* Tabs (contribution card + explore) */
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 5px;
+  margin: 6px 0 4px;
+  border-radius: 999px;
+  background: var(--chip);
+  border: 1px solid var(--card-edge);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: 600 14px Inter;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.tab svg {
+  width: 16px;
+  height: 16px;
+}
+
+.tab.on {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 8px 16px -8px rgba(23, 105, 255, 0.8);
+}
+
+.tabs.wide {
+  max-width: 460px;
+}
+
+/* Audio / image inputs inside the card */
+.filebox {
+  margin-top: 4px;
+}
+
+.filebox[hidden],
+.rec[hidden],
+#preview[hidden],
+.imgprev[hidden] {
+  display: none;
+}
+
+.filebox input[type="file"] {
+  width: 100%;
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--field-ink);
+  background: var(--field);
+  border: 1px dashed var(--field-edge);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.rec {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.recbtn {
+  border: 0;
+  border-radius: 999px;
+  padding: 9px 16px;
+  background: #e5484d;
+  color: #fff;
+  font: 600 14px Inter;
+  cursor: pointer;
+}
+
+#preview {
+  height: 36px;
+  max-width: 100%;
+}
+
+.imgprev {
+  margin-top: 10px;
+  max-width: 100%;
+  max-height: 150px;
+  border-radius: 12px;
+}
+
+/* Explore + How It Works pages */
+.explore {
+  flex: 1;
+  padding: 30px 0;
+}
+
+.panel {
+  padding: 30px;
+}
+
+.ptitle {
+  margin: 0 0 6px;
+  font: 800 clamp(26px, 3.4vw, 40px)/1.1 Inter;
+  letter-spacing: -1px;
+  color: var(--ink);
+  text-shadow: none;
+}
+
+.psub {
+  margin: 0 0 18px;
+  color: var(--ink-soft);
+  max-width: 70ch;
+}
+
+.sub {
+  margin: 28px 0 10px;
+  font: 700 20px Inter;
+  color: var(--ink);
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  gap: 10px;
+  margin: 18px 0 8px;
+}
+
+.filters input[type="search"] {
+  width: 100%;
+  font: inherit;
+  font-size: 14.5px;
+  color: var(--field-ink);
+  background: var(--field);
+  border: 1px solid var(--field-edge);
+  border-radius: 12px;
+  padding: 11px 14px;
+  outline: none;
+}
+
+.filters input[type="search"]:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(23, 105, 255, 0.18);
+}
+
+.submit.small {
+  width: auto;
+  margin: 0;
+  padding: 10px 26px;
+  font-size: 15px;
+}
+
+.count {
+  color: var(--ink-soft);
+  font-size: 13.5px;
+  margin: 6px 0 12px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.item {
+  padding: 16px;
+  border-radius: 18px;
+  background: var(--field);
+  border: 1px solid var(--field-edge);
+  color: var(--field-ink);
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.item audio {
+  width: 100%;
+  height: 36px;
+}
+
+.item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.item .src {
+  margin: 0;
+  font-weight: 600;
+}
+
+.item .tr {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.item .meta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.item .meta span {
+  font-size: 11.5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(23, 105, 255, 0.12);
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--ink-soft);
+  padding: 30px 0;
+}
+
+.pager {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.pager a {
+  min-width: 38px;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--field);
+  border: 1px solid var(--field-edge);
+  color: var(--field-ink);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.pager a.on {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.step {
+  padding: 18px;
+  border-radius: 18px;
+  background: var(--field);
+  border: 1px solid var(--field-edge);
+  color: var(--field-ink);
+}
+
+.step h3 {
+  margin: 6px 0 4px;
+  font-size: 17px;
+}
+
+.step p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.step .n {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 700;
+}
+
+.guide {
+  color: var(--ink);
+  padding-left: 20px;
+  line-height: 1.8;
+}
+
+.cta {
+  margin-top: 24px;
+}
+
+.cta .signin {
+  display: inline-block;
+}
+
+@media (max-width: 1080px) {
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filters input[type="search"] {
+    grid-column: 1 / -1;
+  }  }
+
+
+
+
+
+/* =========================================================
+   HOME PAGE (community interface)
+   ========================================================= */
+
+/* Hero gets its own background instead of the fixed full-page one */
+body.home .herowrap {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+body.home .bg,
+body.home .veil,
+body.home .corner {
+  position: absolute;
+}
+
+body.home .page {
+  min-height: 0;
+  padding-bottom: 0;
+}
+
+body.home .hero {
+  grid-template-columns: 1fr 460px;
+  padding: 30px 0 64px;
+}
+
+body.home .card {
+  border-color: rgba(120, 170, 255, 0.35);
+}
+
+:root[data-theme="dark"] body.home .veil {
+  background: linear-gradient(90deg, rgba(5, 12, 40, 0.55), rgba(5, 12, 40, 0.15) 60%, rgba(5, 12, 40, 0.35));
+}
+
+:root[data-theme="dark"] body.home .bg {
+  background-color: #0d2150;
+}
+
+/* Light dropdown arrows in dark mode */
+:root[data-theme="dark"] select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23eef3ff' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='m5 9 7 7 7-7'/%3E%3C/svg%3E");
+}
+
+/* Category + Source Type side by side */
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ---------- Explore Approved Contributions ---------- */
+.exp {
+  background: #eef5fc;
+  padding: 34px 0 40px;
+}
+
+.exp-in {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 5vw, 76px);
+}
+
+.exp-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.exp-title {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.exp-ico {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #0b1d4d;
+  display: grid;
+  place-items: center;
+}
+
+.exp h2 {
+  margin: 0 0 6px;
+  font: 700 25px/1.15 Inter;
+  color: #0b1d4d;
+}
+
+.exp .lead {
+  margin: 0;
+  max-width: 700px;
+  font-size: 14.5px;
+  color: #2a3b6e;
+}
+
+.viewall {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 10px;
+  background: #0b2a7a;
+  color: #fff;
+  text-decoration: none;
+  font: 600 14px Inter;
+  white-space: nowrap;
+}
+
+.viewall:hover {
+  background: var(--blue);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.ccard {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid #d2e1f5;
+}
+
+.chd {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cico {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--blue);
+  display: grid;
+  place-items: center;
+}
+
+.ccard h3 {
+  margin: 0 0 3px;
+  font: 700 16px Inter;
+  color: #0b1d4d;
+}
+
+.ccard .chd p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: #4a5a85;
+}
+
+.sample {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: #fff;
+  color: #0b1d4d;
+  text-decoration: none;
+  font-size: 13.5px;
+  box-shadow: 0 4px 14px -8px rgba(8, 24, 70, 0.4);
+}
+
+.sample img {
+  flex: none;
+  width: 68px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.sample .lines {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.sample .en {
+  color: #5b6b96;
+}
+
+.sample .ig {
+  font-weight: 700;
+}
+
+.sample .chev {
+  color: #8aa0d0;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.sample.empty {
+  color: #6a7aa5;
+  font-size: 13px;
+}
+
+a.sample:hover {
+  box-shadow: 0 6px 18px -8px rgba(23, 105, 255, 0.55);
+}
+
+.browse {
+  justify-self: start;
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: var(--blue);
+  color: #fff;
+  text-decoration: none;
+  font: 600 12px Inter;
+}
+
+.browse:hover {
+  background: #0f55d6;
+}
+
+/* Audio sample player */
+.player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 4px 14px -8px rgba(8, 24, 70, 0.4);
+}
+
+.pbtn {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--blue);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.pbtn:disabled {
+  background: #b8c9ee;
+  cursor: default;
+}
+
+.wave {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.wave i {
+  display: block;
+  width: 3px;
+  flex: none;
+  border-radius: 2px;
+  background: #b8c9ee;
+}
+
+.wave i.on {
+  background: var(--blue);
+}
+
+.player .time {
+  min-width: 32px;
+  text-align: right;
+  font-size: 12px;
+  color: #5a6a95;
+}
+
+/* ---------- Bottom strip ---------- */
+.stripwrap {
+  background: linear-gradient(180deg, #0c1d4f, #081538);
+  padding: 18px clamp(16px, 5vw, 76px);
+}
+
+body.home .bar {
+  width: min(100%, 1250px);
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: none;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1080px) {
+  body.home .hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 420px) {
+  .two {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+/* ===== Fixed header ===== */
+.top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 10px max(clamp(16px, 5vw, 76px), calc((100vw - 1480px) / 2 + 76px));
+}
+
+/* The blur lives on a pseudo-element, not on the header itself.
+   backdrop-filter on the header would break the fixed mobile menu inside it. */
+.top::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: transparent;
+  transition: background 0.25s, box-shadow 0.25s;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.top.scrolled::before {
+  /* background: rgba(255, 255, 255, 0.82); */
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  /* box-shadow: 0 10px 28px -14px rgba(8, 24, 70, 0.55); */
+}
+
+/* :root[data-theme="dark"] .top.scrolled::before {
+  /* background: rgba(8, 16, 42, 0.82); */
+/* } */ */
+
+/* The header no longer takes up space, so push the page content down */
+.page {
+  padding-top: 120px;
+}
+
+html {
+  scroll-padding-top: 130px;
+}
+
+/* anchor links don't hide under the header */
+
+/* Between 901px and 1080px the menu wraps onto a second row */
+@media (min-width: 901px) and (max-width: 1080px) {
+  .page {
+    padding-top: 175px;
+  }
+
+  html {
+    scroll-padding-top: 185px;
+  }
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding-top: 100px;
+  }
+
+  html {
+    scroll-padding-top: 110px;
+  }
+}

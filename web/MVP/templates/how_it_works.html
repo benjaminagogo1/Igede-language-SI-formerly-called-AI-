@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+      <title>How It Works — Igede Language Data Collection</title>
+      <link rel="icon" type="image/png" href="{{ url_for('static', filename='our2.png') }}" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" />
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+      <div class="bg"></div>
+      <div class="veil"></div>
+      <i class="corner l"></i><i class="corner r"></i>
+
+      <div class="page">
+            {% include "_header.html" %}
+
+            <main class="explore">
+                  <section class="card panel" id="about">
+                        <h1 class="ptitle">How It Works</h1>
+                        <p class="psub">
+                              The Igede Language Data Collection Platform gathers sentences, recordings and images from
+                              native speakers and learners, so the language can be preserved and used to build tools for
+                              the future.
+                        </p>
+
+                        <div class="steps">
+                              <div class="step"><span class="n">1</span>
+                                    <h3>Contribute</h3>
+                                    <p>Submit text, audio or an image with the right details: direction, category and
+                                          source.</p>
+                              </div>
+                              <div class="step"><span class="n">2</span>
+                                    <h3>Review</h3>
+                                    <p>Our team checks every contribution for accuracy and quality.</p>
+                              </div>
+                              <div class="step"><span class="n">3</span>
+                                    <h3>Approved</h3>
+                                    <p>Verified data becomes part of the public dataset and appears on Explore Data.</p>
+                              </div>
+                        </div>
+
+                        <h2 class="sub">What you can contribute</h2>
+                        <div class="steps">
+                              <div class="step">
+                                    <h3>Text</h3>
+                                    <p>Sentences and translations between English and Igede.</p>
+                              </div>
+                              <div class="step">
+                                    <h3>Audio</h3>
+                                    <p>Recordings and speech: record in your browser or upload a file.</p>
+                              </div>
+                              <div class="step">
+                                    <h3>Images</h3>
+                                    <p>Photos with Igede and English labels for objects, places and culture.</p>
+                              </div>
+                        </div>
+
+                        <h2 class="sub">Guidelines</h2>
+                        <ul class="guide">
+                              <li>Only share content you have the right to share.</li>
+                              <li>Use natural, correct Igede, and pick the closest category.</li>
+                              <li>Record in a quiet place and speak clearly.</li>
+                              <li>Do not include private or sensitive personal information.</li>
+                        </ul>
+
+                        <p class="cta">
+                              <a class="signin" href="{{ url_for('home') }}#contribute">Start contributing</a>
+                        </p>
+                  </section>
+            </main>
+      </div>
+
+      <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>

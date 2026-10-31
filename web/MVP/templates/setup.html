@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>First-time Setup — Igede Data Collection</title>
+      <link rel="icon" type="image/png" href="{{ url_for('static', filename='our2.png') }}" />
+      <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+      <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}" />
+</head>
+
+<body class="loginpage">
+      <form class="loginbox" method="post">
+            <img src="{{ url_for('static', filename='our2.png') }}" alt="Igede logo" />
+            <h1>Create Admin Account</h1>
+            <p>First-time setup. This page locks after the first account is created.</p>
+            {% if error %}<div class="flash error">{{ error }}</div>{% endif %}
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" required autofocus />
+            <label for="password">Password (min. 8 characters)</label>
+            <input id="password" name="password" type="password" required minlength="8" />
+            <label for="confirm">Confirm password</label>
+            <input id="confirm" name="confirm" type="password" required minlength="8" />
+            <button type="submit">Create admin</button>
+      </form>
+</body>
+
+</html>

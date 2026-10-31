@@ -1,0 +1,36 @@
+<header class="top">
+      <a class="brand" href="{{ url_for('home') }}">
+            <img class="logo" src="{{ url_for('static', filename='our2.png') }}" alt="Igede logo" />
+            <span>
+                  <b>Igede</b><strong>Language Data Collection</strong><small>Our Language, Our Heritage, Our
+                        Future</small></span>
+      </a>
+      <nav class="menu" aria-label="Main">
+            <a class="{{ 'on' if active == 'home' }}" href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('home') }}#contribute">Contribute</a>
+            <a class="{{ 'on' if active == 'explore' }}" href="{{ url_for('explore') }}">Explore Data</a>
+            <a href="{{ url_for('how_it_works') }}#about">About</a>
+            <a class="{{ 'on' if active == 'how' }}" href="{{ url_for('how_it_works') }}">How It Works</a>
+            <a href="{{ url_for('home') }}#contact">Contact</a>
+      </nav>
+      <div class="actions">
+            <button class="theme" id="theme" aria-label="Toggle theme">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <circle cx="12" cy="12" r="4.5" fill="currentColor" />
+                        <path
+                              d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1" />
+                  </svg>
+            </button>
+            {% if current_user.is_authenticated %}
+            <a class="signin" href="{{ url_for('admin_overview') }}">Dashboard</a>
+            {% else %}
+            <a class="signin" href="{{ url_for('login') }}">Sign In</a>
+            {% endif %}
+            <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+                  <span></span><span></span><span></span>
+            </button>
+      </div>
+</header>
+<div class="backdrop" id="backdrop">
+      </div>

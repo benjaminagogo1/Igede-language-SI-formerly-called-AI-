@@ -1,77 +1,39 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <title>Igede Language Data Collection</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-  </head>
+<html lang="en" data-theme="dark">
 
-  <body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Igede Language Data Collection</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='our2.png') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body class="home">
+  {% macro pair(s) %}
+  <span class="lines">
+    <span class="en">English: {{ ((s.source_text if s.direction == 'en-ig' else s.translation) or '—')|truncate(40)
+      }}</span>
+    <span class="ig">Igede: {{ ((s.translation if s.direction == 'en-ig' else s.source_text) or '—')|truncate(40)
+      }}</span>
+  </span>
+  {% endmacro %}
+
+  <!-- ================= HERO ================= -->
+  <div class="herowrap">
     <div class="bg"></div>
     <div class="veil"></div>
     <i class="corner l"></i><i class="corner r"></i>
 
     <div class="page">
-      <header class="top">
-        <a class="brand" href="#">
-          <img class="logo" src="{{ url_for('static', filename='our2.png') }}" alt="Igede logo" />
-          <span>
-            <b>Igede</b><strong>Language Data Collection</strong
-            ><small>Our Language, Our Heritage, Our Future</small></span
-          >
-        </a>
-        <nav class="menu" aria-label="Main">
-          <a class="on" href="#">Home</a><a href="#contribute">Contribute</a
-          ><a href="#about">About</a><a href="#how">How It Works</a
-          ><a href="#contact">Contact</a>
-        </nav>
-        <div class="actions">
-          <button class="theme" id="theme" aria-label="Toggle theme">
-            <svg
-              viewBox="0 0 24 24"
-              width="22"
-              height="22"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            >
-              <circle cx="12" cy="12" r="4.5" fill="currentColor" />
-              <path
-                d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"
-              />
-            </svg>
-          </button>
-          <a class="signin" href="#">Sign In</a>
-          <button
-            class="burger"
-            id="burger"
-            aria-label="Open menu"
-            aria-expanded="false"
-          >
-            <span></span><span></span><span></span>
-          </button>
-        </div>
-      </header>
+      {% include "_header.html" %}
 
       <main class="hero">
         <section class="left" id="about">
-          <span class="badge float"
-            ><i class="leaf">&#10003;</i>Preserving Igede. Building the
-            Future.</span
-          >
+          <span class="badge float"><i class="leaf">&#10003;</i>Preserving Igede. Building the Future.</span>
           <h1>Igede Language<br /><span>Data Collection Platform</span></h1>
           <p class="lede">
             Help us collect, preserve, and grow Igede language data<br />for a
@@ -79,97 +41,79 @@
           </p>
 
           <div class="tiles" id="how">
-            <div class="tile float">
+            <a class="tile float" href="#contribute" data-tab="audio">
               <svg viewBox="0 0 48 48">
                 <circle cx="24" cy="24" r="17" fill="#7c6cf0" />
-                <circle cx="17" cy="24" r="2.5" fill="#fff" />
-                <circle cx="24" cy="24" r="2.5" fill="#fff" />
-                <circle cx="31" cy="24" r="2.5" fill="#fff" /></svg
-              >Record<br />Sentences
-            </div>
-            <div class="tile float d1">
+                <rect x="20" y="12" width="8" height="15" rx="4" fill="#fff" />
+                <path d="M15 24a9 9 0 0 0 18 0M24 33v4" stroke="#fff" stroke-width="2.6" fill="none"
+                  stroke-linecap="round" />
+              </svg>Contribute<br />Audio
+            </a>
+            <a class="tile float d1" href="#contribute" data-tab="text">
               <svg viewBox="0 0 48 48">
-                <rect
-                  x="10"
-                  y="7"
-                  width="28"
-                  height="34"
-                  rx="5"
-                  fill="#2dd4bf"
-                />
-                <path
-                  d="M16 19h16M16 26h16M16 33h9"
-                  stroke="#fff"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                /></svg
-              >Share<br />Translations
-            </div>
-            <div class="tile float d2">
+                <rect x="10" y="7" width="28" height="34" rx="5" fill="#2dd4bf" />
+                <path d="M16 19h16M16 26h16M16 33h9" stroke="#fff" stroke-width="3" stroke-linecap="round" />
+              </svg>Share<br />Translations
+            </a>
+            <a class="tile float d2" href="{{ url_for('how_it_works') }}#about">
               <svg viewBox="0 0 48 48">
                 <circle cx="24" cy="15" r="7" fill="#60a5fa" />
                 <circle cx="11" cy="22" r="5" fill="#93c5fd" />
                 <circle cx="37" cy="22" r="5" fill="#93c5fd" />
-                <path
-                  d="M8 40c0-9 7-14 16-14s16 5 16 14z"
-                  fill="#3b82f6"
-                /></svg
-              >Support<br />AI Research
-            </div>
-            <div class="tile float d3">
+                <path d="M8 40c0-9 7-14 16-14s16 5 16 14z" fill="#3b82f6" />
+              </svg>Support<br />AI Research
+            </a>
+            <a class="tile float d3" href="{{ url_for('explore') }}">
               <svg viewBox="0 0 48 48">
-                <path
-                  d="M24 5 39 11v12c0 10-6 17-15 20C15 40 9 33 9 23V11z"
-                  fill="#3b82f6"
-                />
-                <path
-                  d="m17 24 5 5 9-10"
-                  stroke="#fff"
-                  stroke-width="3.5"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                /></svg
-              >Preserve<br />Our Heritage
-            </div>
+                <path d="M24 5 39 11v12c0 10-6 17-15 20C15 40 9 33 9 23V11z" fill="#3b82f6" />
+                <path d="m17 24 5 5 9-10" stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>Preserve<br />Our Heritage
+            </a>
           </div>
 
           <div class="script float d1">
-            Real People. Real Language.<br />A Stronger Future.<svg
-              viewBox="0 0 160 14"
-              aria-hidden="true"
-            >
-              <path
-                d="M2 12C40 2 100 0 158 4"
-                stroke="#1769ff"
-                stroke-width="5"
-                fill="none"
-                stroke-linecap="round"
-              />
-            </svg>
+            Real People. Real Language.<br />A Stronger Future.
           </div>
         </section>
 
         <section class="card float d2" id="contribute" aria-labelledby="ft">
           <div class="chead">
-            <span class="ico"
-              ><svg viewBox="0 0 24 24" width="22" height="22">
-                <path
-                  d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"
-                  fill="#a78bfa"
-                />
-                <circle cx="8.5" cy="11" r="1.3" fill="#fff" />
-                <circle cx="12" cy="11" r="1.3" fill="#fff" />
-                <circle cx="15.5" cy="11" r="1.3" fill="#fff" /></svg
-              ></span>
+            <span class="ico"><svg viewBox="0 0 24 24" width="22" height="22">
+                <path d="M5 5h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-8l-5 4v-4H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"
+                  fill="#fff" />
+                <circle cx="8.5" cy="11" r="1.3" fill="#2f5bff" />
+                <circle cx="12" cy="11" r="1.3" fill="#2f5bff" />
+                <circle cx="15.5" cy="11" r="1.3" fill="#2f5bff" />
+              </svg></span>
             <div>
-              <h2 id="ft">Submit a Sentence</h2>
-              <p>
-                Help us build a richer Igede language dataset by sharing a
-                sentence or translation.
-              </p>
+              <h2 id="ft">Contribute to Igede Language</h2>
+              <p>Share sentences, audio recordings, or images. Help build a richer Igede language dataset.</p>
             </div>
           </div>
+
+          <div class="tabs" role="tablist">
+            <button type="button" class="tab on" role="tab" data-mt="text">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+                <path d="M5 6h14M5 12h14M5 18h9" />
+              </svg>Text
+            </button>
+            <button type="button" class="tab" role="tab" data-mt="audio">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+                <rect x="9" y="3" width="6" height="12" rx="3" />
+                <path d="M5 11a7 7 0 0 0 14 0M12 18v3" />
+              </svg>Audio
+            </button>
+            <button type="button" class="tab" role="tab" data-mt="image">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="3" />
+                <circle cx="9" cy="10" r="1.6" />
+                <path d="m21 16-5-5-8 8" />
+              </svg>Image
+            </button>
+          </div>
+
           <form id="f" novalidate>
             <label for="dir">Language Direction <b>*</b></label>
             <select id="dir">
@@ -178,114 +122,241 @@
               {% endfor %}
             </select>
 
-            <label for="en"
-              ><span id="l1">{{ source_label }}</span> <b id="r1">*</b></label
-            >
+            <label for="en"><span id="l1">{{ source_label }}</span> <b id="r1">*</b></label>
             <div class="ta">
-              <textarea
-                id="en"
-                maxlength="500"
-                placeholder="{{ en_placeholder }}"
-              ></textarea
-              ><em><span id="c1">0</span>/500</em>
+              <textarea id="en" maxlength="500" placeholder="{{ en_placeholder }}"></textarea><em><span
+                  id="c1">0</span>/500</em>
             </div>
 
-            <label for="ig"
-              ><span id="l2">{{ target_label }}</span
-              ><span id="r2">(optional)</span></label
-            >
+            <label for="ig"><span id="l2">{{ target_label }}</span> <span id="r2">(optional)</span></label>
             <div class="ta">
-              <textarea
-                id="ig"
-                maxlength="500"
-                placeholder="{{ ig_placeholder }}"
-              ></textarea
-              ><em><span id="c2">0</span>/500</em>
+              <textarea id="ig" maxlength="500" placeholder="{{ ig_placeholder }}"></textarea><em><span
+                  id="c2">0</span>/500</em>
             </div>
 
-            <label for="cat">Category <b>*</b></label>
-            <select id="cat">
-              {% for key, label in category_items %}
-              <option value="{{ key }}">{{ label }}</option>
-              {% endfor %}
-            </select>
+            <div class="filebox" id="fbox" hidden>
+              <label for="file"><span id="fileLabel">Audio recording</span> <b>*</b></label>
+              <input type="file" id="file" accept="audio/*" />
+              <div class="rec" id="audioTools" hidden>
+                <button type="button" id="rec" class="recbtn">&#9679; Record now</button>
+                <audio id="preview" controls hidden></audio>
+              </div>
+              <img id="imgPreview" class="imgprev" alt="" hidden />
+            </div>
 
-            <label for="src">Source Type <b>*</b></label>
-            <select id="src">
-              {% for key, label in source_type_items %}
-              <option value="{{ key }}">{{ label }}</option>
-              {% endfor %}
-            </select>
+            <div class="speaker" id="speaker" hidden>
+              <p class="shead">Speaker details <span>(optional, helps AI training)</span></p>
+              <div class="sgrid">
+                <div>
+                  <label for="sp-dialect">Dialect / village</label>
+                  <input type="text" id="sp-dialect" maxlength="100" placeholder="e.g. village or dialect" />
+                </div>
+                <div>
+                  <label for="sp-age">Age range</label>
+                  <select id="sp-age">
+                    <option value="">Prefer not to say</option>
+                    <option value="Under 18">Under 18</option>
+                    <option value="18-25">18-25</option>
+                    <option value="26-35">26-35</option>
+                    <option value="36-50">36-50</option>
+                    <option value="51+">51+</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="sp-gender">Gender</label>
+                  <select id="sp-gender">
+                    <option value="">Prefer not to say</option>
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="two">
+              <div>
+                <label for="cat">Category <b>*</b></label>
+                <select id="cat">
+                  {% for key, label in category_items %}
+                  <option value="{{ key }}">{{ label }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div>
+                <label for="src">Source Type <b>*</b></label>
+                <select id="src">
+                  {% for key, label in source_type_items %}
+                  <option value="{{ key }}">{{ label }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <label class="consent">
+              <input type="checkbox" id="consent" />
+              <span>I agree my contribution can be used for language research and AI training, and I release it to the
+                public domain under
+                <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">CC0 1.0</a>.
+                <b>*</b></span>
+            </label>
 
             <div class="err" id="err" role="alert"></div>
             <button class="submit" type="submit">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff">
-                <path d="M21.5 2.5 2 10l7 3 3 7zM9 13l9-8" /></svg
-              >Submit
+                <path d="M21.5 2.5 2 10l7 3 3 7zM9 13l9-8" />
+              </svg>Submit
             </button>
             <p class="thanks">Your contribution is valuable!</p>
           </form>
         </section>
       </main>
-
-      <section class="bar float d3" id="contact" aria-label="Why contribute">
-        <div>
-          <svg viewBox="0 0 40 40">
-            <circle cx="20" cy="13" r="6" fill="#60a5fa" />
-            <circle cx="8" cy="19" r="4" fill="#93c5fd" />
-            <circle cx="32" cy="19" r="4" fill="#93c5fd" />
-            <path d="M6 34c0-8 6-12 14-12s14 4 14 12z" fill="#3b82f6" /></svg
-          ><span
-            ><b>Community Driven</b
-            ><small>By the people, for the people</small></span
-          >
-        </div>
-        <div>
-          <svg viewBox="0 0 40 40">
-            <path
-              d="M20 4 33 9v10c0 9-5 14-13 17C12 33 7 28 7 19V9z"
-              fill="none"
-              stroke="#fff"
-              stroke-width="2.5"
-            />
-            <path
-              d="m14 20 4 4 8-9"
-              stroke="#fff"
-              stroke-width="3"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            /></svg
-          ><span><b>Verified Data</b><small>Quality you can trust</small></span>
-        </div>
-        <div>
-          <svg viewBox="0 0 40 40">
-            <path d="M8 33C8 15 18 7 33 7c0 16-8 26-25 26z" fill="#22c55e" />
-            <path d="M10 31 26 15" stroke="#fff" stroke-width="2.5" /></svg
-          ><span
-            ><b>Cultural Preservation</b
-            ><small>Our heritage, our pride</small></span
-          >
-        </div>
-        <div>
-          <svg
-            viewBox="0 0 40 40"
-            fill="none"
-            stroke="#38bdf8"
-            stroke-width="2.5"
-            stroke-linecap="round"
-          >
-            <rect x="11" y="11" width="18" height="18" rx="3" />
-            <rect x="16" y="16" width="8" height="8" rx="1.5" fill="#38bdf8" />
-            <path
-              d="M15 5v6M20 5v6M25 5v6M15 29v6M20 29v6M25 29v6M5 15h6M5 20h6M5 25h6M29 15h6M29 20h6M29 25h6"
-            /></svg
-          ><span><b>AI Ready</b><small>For future innovations</small></span>
-        </div>
-      </section>
     </div>
+  </div>
 
-    <div class="toast" id="toast" role="status">Thank you! Your sentence was submitted.</div>
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
-  </body>
+  <!-- ================= EXPLORE APPROVED CONTRIBUTIONS ================= -->
+  <section class="exp" aria-labelledby="exp-t">
+    <div class="exp-in">
+      <div class="exp-head">
+        <div class="exp-title">
+          <span class="exp-ico">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9" />
+              <path d="m15.5 8.5-2 5-5 2 2-5z" fill="#fff" />
+            </svg>
+          </span>
+          <div>
+            <h2 id="exp-t">Explore Approved Contributions</h2>
+            <p class="lead">
+              Discover real examples from our growing Igede language data. Browse text, audio, and image
+              contributions submitted by our community.
+            </p>
+          </div>
+        </div>
+        <a class="viewall" href="{{ url_for('explore') }}">View All Data <span aria-hidden="true">&rarr;</span></a>
+      </div>
+
+      <div class="cards">
+        <!-- Text -->
+        <article class="ccard">
+          <div class="chd">
+            <span class="cico">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 3h7l5 5v13H7z" />
+                <path d="M10 13h6M10 17h6M10 9h2" />
+              </svg>
+            </span>
+            <div>
+              <h3>Text Contributions</h3>
+              <p>View verified sentences and translations in both directions.</p>
+            </div>
+          </div>
+          {% if samples['text'] %}
+          <a class="sample" href="{{ url_for('explore', type='text') }}">
+            {{ pair(samples['text']) }}<span class="chev" aria-hidden="true">&rsaquo;</span>
+          </a>
+          {% else %}
+          <div class="sample empty">No approved text yet. Be the first to contribute!</div>
+          {% endif %}
+          <a class="browse" href="{{ url_for('explore', type='text') }}">Browse Texts</a>
+        </article>
+
+        <!-- Audio -->
+        <article class="ccard">
+          <div class="chd">
+            <span class="cico">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2"
+                stroke-linecap="round">
+                <rect x="9" y="3" width="6" height="12" rx="3" />
+                <path d="M5 11a7 7 0 0 0 14 0M12 18v3" />
+              </svg>
+            </span>
+            <div>
+              <h3>Audio Contributions</h3>
+              <p>Listen to native speakers and learn proper pronunciation.</p>
+            </div>
+          </div>
+          <div class="player" {% if samples['audio'] %}data-src="{{ url_for('media', sid=samples['audio'].id) }}" {%
+            endif %}>
+            <button class="pbtn" type="button" aria-label="Play sample">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="#fff">
+                <path d="M7 4.5v15l13-7.5z" />
+              </svg>
+            </button>
+            <div class="wave"></div>
+            <span class="time">{{ '0:00' if samples['audio'] else '—' }}</span>
+          </div>
+          <a class="browse" href="{{ url_for('explore', type='audio') }}">Browse Audio</a>
+        </article>
+
+        <!-- Image -->
+        <article class="ccard">
+          <div class="chd">
+            <span class="cico">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="3" />
+                <circle cx="9" cy="10" r="1.6" />
+                <path d="m21 16-5-5-8 8" />
+              </svg>
+            </span>
+            <div>
+              <h3>Image Contributions</h3>
+              <p>Explore images with English and Igede labels across different categories.</p>
+            </div>
+          </div>
+          {% if samples['image'] %}
+          <a class="sample" href="{{ url_for('explore', type='image') }}">
+            <img src="{{ url_for('media', sid=samples['image'].id) }}" alt="" loading="lazy" />
+            {{ pair(samples['image']) }}<span class="chev" aria-hidden="true">&rsaquo;</span>
+          </a>
+          {% else %}
+          <div class="sample empty">No approved images yet. Be the first to contribute!</div>
+          {% endif %}
+          <a class="browse" href="{{ url_for('explore', type='image') }}">Browse Images</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BOTTOM STRIP ================= -->
+  <section class="stripwrap" id="contact" aria-label="Why contribute">
+    <div class="bar">
+      <div>
+        <svg viewBox="0 0 40 40">
+          <circle cx="20" cy="13" r="6" fill="#60a5fa" />
+          <circle cx="8" cy="19" r="4" fill="#93c5fd" />
+          <circle cx="32" cy="19" r="4" fill="#93c5fd" />
+          <path d="M6 34c0-8 6-12 14-12s14 4 14 12z" fill="#3b82f6" />
+        </svg><span><b>Community Driven</b><small>By the people, for the people.</small></span>
+      </div>
+      <div>
+        <svg viewBox="0 0 40 40">
+          <path d="M20 4 33 9v10c0 9-5 14-13 17C12 33 7 28 7 19V9z" fill="none" stroke="#fff" stroke-width="2.5" />
+          <path d="m14 20 4 4 8-9" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg><span><b>Verified Data</b><small>Quality you can trust.</small></span>
+      </div>
+      <div>
+        <svg viewBox="0 0 40 40">
+          <path d="M8 33C8 15 18 7 33 7c0 16-8 26-25 26z" fill="#22c55e" />
+          <path d="M10 31 26 15" stroke="#fff" stroke-width="2.5" />
+        </svg><span><b>Cultural Preservation</b><small>Our language, our identity.</small></span>
+      </div>
+      <div>
+        <svg viewBox="0 0 40 40" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round">
+          <rect x="11" y="11" width="18" height="18" rx="3" />
+          <rect x="16" y="16" width="8" height="8" rx="1.5" fill="#38bdf8" />
+          <path d="M15 5v6M20 5v6M25 5v6M15 29v6M20 29v6M25 29v6M5 15h6M5 20h6M5 25h6M29 15h6M29 20h6M29 25h6" />
+        </svg><span><b>AI Ready</b><small>Building tomorrow's AI.</small></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast" role="status">Thank you! Your contribution was submitted.</div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
 </html>

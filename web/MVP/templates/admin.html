@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>{{ title }} — Igede Admin</title>
+      <link rel="icon" type="image/png" href="{{ url_for('static', filename='our2.png') }}" />
+      <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+      <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}" />
+</head>
+
+<body class="adm">
+
+      {% macro table(rows, preview=False, actions=False) %}
+      <div class="tablewrap">
+            <table class="tbl">
+                  <thead>
+                        <tr>
+                              <th>Type</th>
+                              <th>Content</th>
+                              <th>Language Direction</th>
+                              <th>Status</th>
+                              <th>Date</th>
+                              <th>File</th>
+                              {% if actions %}<th>Action</th>{% endif %}
+                        </tr>
+                  </thead>
+                  <tbody>
+                        {% for r in rows %}
+                        <tr>
+                              <td><span class="tp {{ r.media_type }}">{{ r.media_type|capitalize }}</span></td>
+                              <td class="content">
+                                    {% if preview and r.media_type == 'audio' %}<audio controls preload="none"
+                                          src="{{ url_for('media', sid=r.id) }}"></audio>{% endif %}
+                                    {% if preview and r.media_type == 'image' %}<img src="{{ url_for('media', sid=r.id) }}"
+                                          alt="" />{% endif %}
+                                    <div>{{ r.source_text|truncate(90) }}</div>
+                                    {% if r.translation %}<small>{{ r.translation|truncate(90) }}</small>{% endif %}
+                              </td>
+                              <td>{{ dir_labels.get(r.direction, r.direction) }}</td>
+                              <td><span class="st {{ r.status }}">{{ r.status|capitalize }}</span></td>
+                              <td>{{ r.created_at|timeago }}</td>
+                              <td>
+                                    {% if r.file_path %}
+                                    <a class="dlink" href="{{ url_for('admin_file', sid=r.id) }}">&#8681; Download</a>
+                                    {% else %}&mdash;{% endif %}
+                              </td>
+                              {% if actions %}
+                              <td class="acts">
+                                    <form method="post"
+                                          action="{{ url_for('admin_review_action', sid=r.id, decision='approve') }}"><button
+                                                class="ok">Approve</button></form>
+                                    <form method="post"
+                                          action="{{ url_for('admin_review_action', sid=r.id, decision='reject') }}"><button
+                                                class="no">Reject</button></form>
+                              </td>
+                              {% endif %}
+                        </tr>
+                        {% else %}
+                        <tr>
+                              <td colspan="7" class="none">Nothing here yet.</td>
+                        </tr>
+                        {% endfor %}
+                  </tbody>
+            </table>
+      </div>
+      {% endmacro%}
+
+      <aside class="side">
+            <a class="logo" href="{{ url_for('home') }}">
+                  <img src="{{ url_for('static', filename='our2.png') }}" alt="" />
+                  <span>Igede<small>Admin Dashboard</small></span>
+            </a>
+            <nav>
+                  {% set items = [
+                  ('overview', '▦ Overview', url_for('admin_overview')),
+                  ('text', '✎ Text Data', url_for('admin_data', kind='text')),
+                  ('audio', '♪ Audio Data', url_for('admin_data', kind='audio')),
+                  ('image', '▣ Image Data', url_for('admin_data', kind='image')),
+                  ('review', '✔ Review Queue', url_for('admin_review')),
+                  ('downloads', '⇩ Downloads', url_for('admin_downloads')),
+                  ('database', '⛁ Database', url_for('admin_database'))
+                  ] %}
+                  {% for key, label, href in items %}
+                  <a class="{{ 'on' if view == key }}" href="{{ href }}">{{ label }}</a>
+                  {% endfor %}
+            </nav>
+            <div class="who">
+                  <b>{{ current_user.username }}</b><small>{{ current_user.role }}</small>
+                  <a href="{{ url_for('logout') }}">Log out</a>
+            </div>
+      </aside>
+
+      <main class="main">
+            <h1>{{ title }}</h1>
+
+            {% with msgs = get_flashed_messages(with_categories=true) %}
+            {% for cat, msg in msgs %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+            {% endwith %}
+
+            {% if view == 'overview' %}
+            <div class="stats">
+                  <div class="stat total"><small>Total Submissions</small><b>{{ '{:,}'.format(stats.total) }}</b></div>
+                  <div class="stat pending"><small>Pending Review</small><b>{{ '{:,}'.format(stats.pending) }}</b></div>
+                  <div class="stat approved"><small>Approved</small><b>{{ '{:,}'.format(stats.approved) }}</b></div>
+                  <div class="stat rejected"><small>Rejected</small><b>{{ '{:,}'.format(stats.rejected) }}</b></div>
+            </div>
+            <div class="rowhead">
+                  <h2>Recent Submissions</h2><a href="{{ url_for('admin_data', kind='all') }}">View All &rarr;</a>
+            </div>
+            {{ table(rows) }}
+
+            {% elif view == 'review' %}
+            <p class="hint">{{ rows|length }} pending. Listen to or view each item before deciding.
+                  {% if current_user.role == 'developer' %}(Developers have read-only access.){% endif %}</p>
+            {{ table(rows, preview=True, actions=(current_user.role in ['admin', 'reviewer'])) }}
+
+            {% elif view in ['text', 'audio', 'image', 'all'] %}
+            <div class="filter">
+                  {% for k, l in [('', 'All'), ('pending', 'Pending'), ('approved', 'Approved'), ('rejected',
+                  'Rejected')] %}
+                  <a class="{{ 'on' if status == k }}"
+                        href="{{ url_for('admin_data', kind=view, status=k) if k else url_for('admin_data', kind=view) }}">{{
+                        l }}</a>
+                  {% endfor %}
+            </div>
+            {{ table(rows, preview=True) }}
+            <p class="hint">Showing the latest 200. Use Downloads for full exports.</p>
+
+            {% elif view == 'downloads' %}
+            <p class="hint">Exports include approved data by default. Choose "All statuses" to include pending and
+                  rejected.</p>
+            <div class="dlgrid">
+                  {% for k, l in [('text', 'Text Data'), ('audio', 'Audio Data'), ('image', 'Image Data'), ('all',
+                  'Everything')] %}
+                  <form class="dl" method="get">
+                        <h3>{{ l }}</h3>
+                        <select name="status">
+                              <option value="approved">Approved only</option>
+                              <option value="all">All statuses</option>
+                        </select>
+                        <div class="btns">
+                              <button formaction="{{ url_for('admin_export', kind=k, fmt='csv') }}">CSV</button>
+                              <button formaction="{{ url_for('admin_export', kind=k, fmt='json') }}">JSON</button>
+                              {% if k in ['audio', 'image'] %}
+                              <button formaction="{{ url_for('admin_export', kind=k, fmt='zip') }}">Files (ZIP)</button>
+                              {% endif %}
+                        </div>
+                  </form>
+                  {% endfor %}
+            </div>
+
+            {% elif view == 'database' %}
+            <div class="stats">
+                  <div class="stat total"><small>Database size</small><b>{{ info.size }}</b></div>
+                  <div class="stat approved"><small>Submissions</small><b>{{ info.submissions }}</b></div>
+                  <div class="stat pending"><small>Review records</small><b>{{ info.reviews }}</b></div>
+                  <div class="stat rejected"><small>Users</small><b>{{ info.users }}</b></div>
+            </div>
+            <div class="rowhead">
+                  <h2>Records by type</h2>
+            </div>
+            <div class="tablewrap">
+                  <table class="tbl">
+                        <thead>
+                              <tr>
+                                    <th>Type</th>
+                                    <th>Records</th>
+                              </tr>
+                        </thead>
+                        <tbody>{% for t in info.by_type %}<tr>
+                                    <td><span class="tp {{ t.media_type }}">{{ t.media_type|capitalize }}</span></td>
+                                    <td>{{ t.n }}</td>
+                              </tr>
+                              {% else %}<tr>
+                                    <td colspan="2" class="none">No records yet.</td>
+                              </tr>{% endfor %}</tbody>
+                  </table>
+            </div>
+            <p class="hint">PostgreSQL stores records and metadata. Audio and image files are stored in the
+                  <code>uploads/</code> folder, with their paths saved in the database.</p>
+            {% endif %}
+      </main>
+</body>
+
+</html>
