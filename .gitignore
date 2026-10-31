@@ -23,3 +23,11 @@ env/
 .DS_Store
 
 .zshrc.zshrc
+pgdata/
+web/MVP/uploads/
+.zshrc
+.env
+venv/
+__pycache__/
+dev_credentials.json
+igede.db
