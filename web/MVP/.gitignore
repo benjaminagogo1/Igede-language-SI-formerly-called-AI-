@@ -13,3 +13,10 @@ venv/
 __pycache__/
 pgdata/
 dev_credentials.json
+
+.zshrc
+.env
+venv/
+__pycache__/
+pgdata/
+dev_credentials.json
