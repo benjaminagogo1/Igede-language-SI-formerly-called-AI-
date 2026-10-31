@@ -12,5 +12,4 @@ igede.db
 venv/
 __pycache__/
 pgdata/
-web/MVP/uploads/
 dev_credentials.json
